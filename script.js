@@ -1,42 +1,60 @@
 "use strict";
 
+const Player = (playerName, playerMarker) => {
+  return { playerName, playerMarker };
+};
+
+let playerOne = Player("Keffri", "X");
+let playerTwo = Player("Gina", "O");
+
 const gameboard = (() => {
   let gameBoard = {
     gameboard: ["", "", "", "", "", "", "", "", ""],
+
+    playerTurn: "X",
+
+    placeMarker: function (playerMarker, box, index) {
+      box.textContent = playerMarker;
+      gameBoard.gameboard[index] = playerMarker;
+    },
+
+    switchPlayer: function () {
+      if (this.playerTurn === "X") {
+        this.playerTurn = "O";
+      } else if (this.playerTurn === "O") {
+        this.playerTurn = "X";
+      }
+    },
   };
 
   return { gameBoard };
 })();
 
 const displayController = (() => {
-  let ticTacToeGrid = document.getElementById("ticTacToeGrid");
-
-  for (let i = 0; i < gameboard.gameBoard.gameboard.length; i++) {
-    ticTacToeGrid.children[i].textContent = gameboard.gameBoard.gameboard[i];
-  }
-
   const ticTacToeBoxes = document.querySelectorAll(".ticTacToeBox");
 
-  let playerTurn = "X";
+  let playerTurn = playerOne.playerMarker;
 
-  ticTacToeBoxes.forEach((box) => {
+  ticTacToeBoxes.forEach((box, index) => {
     box.addEventListener("click", (e) => {
       if (box.textContent != "") {
         return;
       }
       if (playerTurn === "X") {
-        box.textContent = playerTurn;
-        playerTurn = "O";
+        gameboard.gameBoard.placeMarker(
+          gameboard.gameBoard.playerTurn,
+          box,
+          index
+        );
+        gameboard.gameBoard.switchPlayer();
       } else if (playerTurn === "O") {
-        box.textContent = playerTurn;
-        playerTurn = "X";
+        gameboard.gameBoard.placeMarker(
+          gameboard.gameBoard.playerTurn,
+          box,
+          index
+        );
+        gameboard.gameBoard.switchPlayer();
       }
     });
   });
-
-  return { ticTacToeGrid };
 })();
-
-const Player = (playerName, playerMarker) => {
-  return { playerName, playerMarker };
-};
