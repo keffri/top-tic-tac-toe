@@ -153,8 +153,6 @@ const displayController = (() => {
 
   gameTextChanger();
 
-  // ADD GAMEBOARD when putting names in gameboard module.
-
   ticTacToeBoxes.forEach((box, index) => {
     box.addEventListener("click", (e) => {
       if (box.textContent != "") {
@@ -180,12 +178,3 @@ const displayController = (() => {
     });
   });
 })();
-
-/*
-
-  let pOne = prompt("Please enter name of first player.");
-  let playerOne = Player(pOne, "X");
-  let pTwo = prompt("Please enter name of second player.");
-  let playerTwo = Player(pTwo, "O");
-
-  */
