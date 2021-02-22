@@ -4,57 +4,186 @@ const Player = (playerName, playerMarker) => {
   return { playerName, playerMarker };
 };
 
-let playerOne = Player("Keffri", "X");
-let playerTwo = Player("Gina", "O");
+let playerOne = Player("P1", "X");
+let playerTwo = Player("P2", "O");
 
 const gameboard = (() => {
-  let gameBoard = {
-    gameboard: ["", "", "", "", "", "", "", "", ""],
+  let board = ["", "", "", "", "", "", "", "", ""];
 
-    playerTurn: "X",
+  let playerTurn = "X";
 
-    placeMarker: function (playerMarker, box, index) {
-      box.textContent = playerMarker;
-      gameBoard.gameboard[index] = playerMarker;
-    },
+  let gameWon = false;
 
-    switchPlayer: function () {
-      if (this.playerTurn === "X") {
-        this.playerTurn = "O";
-      } else if (this.playerTurn === "O") {
-        this.playerTurn = "X";
-      }
-    },
+  let placeMarker = function (playerMarker, box, index) {
+    box.textContent = playerMarker;
+    board[index] = playerMarker;
   };
 
-  return { gameBoard };
+  let switchPlayer = function () {
+    if (this.playerTurn === "X") {
+      this.playerTurn = "O";
+    } else if (this.playerTurn === "O") {
+      this.playerTurn = "X";
+    }
+  };
+
+  let checkWinner = function (gameText) {
+    if (board[0] === board[1] && board[0] === board[2] && board[0] != "") {
+      gameWon = true;
+      if (board[0] === "X") {
+        gameText.textContent = `${playerOne.playerName} wins!`;
+      } else if (board[0] === "O") {
+        gameText.textContent = `${playerTwo.playerName} wins!`;
+      }
+    } else if (
+      board[3] === board[4] &&
+      board[3] === board[5] &&
+      board[3] != ""
+    ) {
+      gameWon = true;
+      if (board[3] === "X") {
+        gameText.textContent = `${playerOne.playerName} wins!`;
+      } else if (board[3] === "O") {
+        gameText.textContent = `${playerTwo.playerName} wins!`;
+      }
+    } else if (
+      board[6] === board[7] &&
+      board[6] === board[8] &&
+      board[6] != ""
+    ) {
+      gameWon = true;
+      if (board[6] === "X") {
+        gameText.textContent = `${playerOne.playerName} wins!`;
+      } else if (board[6] === "O") {
+        gameText.textContent = `${playerTwo.playerName} wins!`;
+      }
+    } else if (
+      board[0] === board[3] &&
+      board[0] === board[6] &&
+      board[0] != ""
+    ) {
+      gameWon = true;
+      if (board[0] === "X") {
+        gameText.textContent = `${playerOne.playerName} wins!`;
+      } else if (board[0] === "O") {
+        gameText.textContent = `${playerTwo.playerName} wins!`;
+      }
+    } else if (
+      board[1] === board[4] &&
+      board[1] === board[7] &&
+      board[1] != ""
+    ) {
+      gameWon = true;
+      if (board[1] === "X") {
+        gameText.textContent = `${playerOne.playerName} wins!`;
+      } else if (board[1] === "O") {
+        gameText.textContent = `${playerTwo.playerName} wins!`;
+      }
+    } else if (
+      board[2] === board[5] &&
+      board[2] === board[8] &&
+      board[2] != ""
+    ) {
+      gameWon = true;
+      if (board[2] === "X") {
+        gameText.textContent = `${playerOne.playerName} wins!`;
+      } else if (board[2] === "O") {
+        gameText.textContent = `${playerTwo.playerName} wins!`;
+      }
+    } else if (
+      board[0] === board[4] &&
+      board[0] === board[8] &&
+      board[0] != ""
+    ) {
+      gameWon = true;
+      if (board[0] === "X") {
+        gameText.textContent = `${playerOne.playerName} wins!`;
+      } else if (board[0] === "O") {
+        gameText.textContent = `${playerTwo.playerName} wins!`;
+      }
+    } else if (
+      board[2] === board[4] &&
+      board[2] === board[6] &&
+      board[2] != ""
+    ) {
+      gameWon = true;
+      if (board[2] === "X") {
+        gameText.textContent = `${playerOne.playerName} wins!`;
+      } else if (board[2] === "O") {
+        gameText.textContent = `${playerTwo.playerName} wins!`;
+      }
+    } else if (board.every(checkTie)) {
+      gameText.textContent = `Match tie.`;
+    }
+  };
+
+  let checkTie = (cv) => cv != "";
+
+  return {
+    board,
+    playerTurn,
+    placeMarker,
+    switchPlayer,
+    checkWinner,
+    gameWon,
+  };
 })();
 
 const displayController = (() => {
   const ticTacToeBoxes = document.querySelectorAll(".ticTacToeBox");
 
+  let pOneName = document.getElementById("pOneName");
+  pOneName.textContent = playerOne.playerName;
+  let pTwoName = document.getElementById("pTwoName");
+  pTwoName.textContent = playerTwo.playerName;
+
+  const gameText = document.getElementById("gameText");
+
   let playerTurn = playerOne.playerMarker;
+
+  let gameTextChanger = function () {
+    if (playerTurn === "X") {
+      gameText.textContent = `${playerOne.playerName}'s turn with ${playerTurn}`;
+      playerTurn = "O";
+    } else if (playerTurn === "O") {
+      gameText.textContent = `${playerTwo.playerName}'s turn with ${playerTurn}`;
+      playerTurn = "X";
+    }
+  };
+
+  gameTextChanger();
+
+  // ADD GAMEBOARD when putting names in gameboard module.
 
   ticTacToeBoxes.forEach((box, index) => {
     box.addEventListener("click", (e) => {
       if (box.textContent != "") {
         return;
       }
+
       if (playerTurn === "X") {
-        gameboard.gameBoard.placeMarker(
-          gameboard.gameBoard.playerTurn,
-          box,
-          index
-        );
-        gameboard.gameBoard.switchPlayer();
+        gameboard.placeMarker(gameboard.playerTurn, box, index);
+        gameTextChanger();
+
+        gameboard.switchPlayer();
       } else if (playerTurn === "O") {
-        gameboard.gameBoard.placeMarker(
-          gameboard.gameBoard.playerTurn,
-          box,
-          index
-        );
-        gameboard.gameBoard.switchPlayer();
+        gameboard.placeMarker(gameboard.playerTurn, box, index);
+        gameTextChanger();
+        gameboard.switchPlayer();
+      }
+      gameboard.checkWinner(gameText);
+      if (gameboard.gameWon === "true") {
+        ticTacToeBoxes.style.pointerEvents = "none";
       }
     });
   });
 })();
+
+/*
+
+  let pOne = prompt("Please enter name of first player.");
+  let playerOne = Player(pOne, "X");
+  let pTwo = prompt("Please enter name of second player.");
+  let playerTwo = Player(pTwo, "O");
+
+  */
