@@ -9,7 +9,46 @@ body {
   background: #ccc;
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+
+/*** TITLE ***/
+
+.titleContainer {
+  margin: -3rem 0 3rem 0;
+}
+
+.title {
+  font-size: 2.5rem;
+}
+
+/*** PLAYERS ***/
+
+.playerContainer {
+  display: flex;
+}
+
+.playerContainer p {
+  margin: 0 3rem;
+}
+
+/*** GAME TEXT ***/
+
+.gameTextContainer {
+  margin: 3rem 0;
+}
+
+#gameText {
+  font-size: 1.5rem;
+}
+
+/*** GAME CONTAINER ***/
+
+#gameContainer {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
