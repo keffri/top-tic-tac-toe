@@ -29,7 +29,7 @@ const gameboard = (() => {
 
   let checkWinner = function (gameText) {
     if (board[0] === board[1] && board[0] === board[2] && board[0] != "") {
-      gameWon = true;
+      gameboard.gameWon = true;
       if (board[0] === "X") {
         gameText.textContent = `${playerOne.playerName} wins!`;
       } else if (board[0] === "O") {
@@ -40,7 +40,7 @@ const gameboard = (() => {
       board[3] === board[5] &&
       board[3] != ""
     ) {
-      gameWon = true;
+      gameboard.gameWon = true;
       if (board[3] === "X") {
         gameText.textContent = `${playerOne.playerName} wins!`;
       } else if (board[3] === "O") {
@@ -51,7 +51,7 @@ const gameboard = (() => {
       board[6] === board[8] &&
       board[6] != ""
     ) {
-      gameWon = true;
+      gameboard.gameWon = true;
       if (board[6] === "X") {
         gameText.textContent = `${playerOne.playerName} wins!`;
       } else if (board[6] === "O") {
@@ -62,7 +62,7 @@ const gameboard = (() => {
       board[0] === board[6] &&
       board[0] != ""
     ) {
-      gameWon = true;
+      gameboard.gameWon = true;
       if (board[0] === "X") {
         gameText.textContent = `${playerOne.playerName} wins!`;
       } else if (board[0] === "O") {
@@ -73,7 +73,7 @@ const gameboard = (() => {
       board[1] === board[7] &&
       board[1] != ""
     ) {
-      gameWon = true;
+      gameboard.gameWon = true;
       if (board[1] === "X") {
         gameText.textContent = `${playerOne.playerName} wins!`;
       } else if (board[1] === "O") {
@@ -84,7 +84,7 @@ const gameboard = (() => {
       board[2] === board[8] &&
       board[2] != ""
     ) {
-      gameWon = true;
+      gameboard.gameWon = true;
       if (board[2] === "X") {
         gameText.textContent = `${playerOne.playerName} wins!`;
       } else if (board[2] === "O") {
@@ -95,7 +95,7 @@ const gameboard = (() => {
       board[0] === board[8] &&
       board[0] != ""
     ) {
-      gameWon = true;
+      gameboard.gameWon = true;
       if (board[0] === "X") {
         gameText.textContent = `${playerOne.playerName} wins!`;
       } else if (board[0] === "O") {
@@ -106,7 +106,7 @@ const gameboard = (() => {
       board[2] === board[6] &&
       board[2] != ""
     ) {
-      gameWon = true;
+      gameboard.gameWon = true;
       if (board[2] === "X") {
         gameText.textContent = `${playerOne.playerName} wins!`;
       } else if (board[2] === "O") {
@@ -172,8 +172,10 @@ const displayController = (() => {
         gameboard.switchPlayer();
       }
       gameboard.checkWinner(gameText);
-      if (gameboard.gameWon === "true") {
-        ticTacToeBoxes.style.pointerEvents = "none";
+      if (gameboard.gameWon === true) {
+        ticTacToeBoxes.forEach((box) => {
+          box.style.pointerEvents = "none";
+        });
       }
     });
   });
