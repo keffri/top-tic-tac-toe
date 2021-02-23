@@ -19,6 +19,10 @@ const gameboard = (() => {
     board[index] = playerMarker;
   };
 
+  const resetBoard = function () {
+    board.fill("");
+  };
+
   const switchPlayer = function () {
     if (this.playerTurn === "X") {
       this.playerTurn = "O";
@@ -135,6 +139,7 @@ const gameboard = (() => {
     placeMarker,
     switchPlayer,
     checkWinner,
+    resetBoard,
     gameWon,
   };
 })();
@@ -149,7 +154,14 @@ const displayController = (() => {
       box.style.pointerEvents = "auto";
     });
     gameboard.gameWon = false;
-    gameboard.board = ["", "", "", "", "", "", "", "", ""];
+    gameboard.resetBoard();
+    if (playerTurn === "X") {
+      gameboard.playerTurn = "O";
+      gameText.textContent = `${playerTwo.playerName}'s turn with ${gameboard.playerTurn}`;
+    } else if (playerTurn === "O") {
+      gameboard.playerTurn = "X";
+      gameText.textContent = `${playerOne.playerName}'s turn with ${gameboard.playerTurn}`;
+    }
   };
 
   resetButton.addEventListener("click", resetGame);
@@ -196,7 +208,6 @@ const displayController = (() => {
           box.style.pointerEvents = "none";
         });
       }
-      console.log(e.target.textContent);
     });
   });
 })();
