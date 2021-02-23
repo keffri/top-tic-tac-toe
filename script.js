@@ -14,12 +14,12 @@ const gameboard = (() => {
 
   let gameWon = false;
 
-  let placeMarker = function (playerMarker, box, index) {
+  const placeMarker = function (playerMarker, box, index) {
     box.textContent = playerMarker;
     board[index] = playerMarker;
   };
 
-  let switchPlayer = function () {
+  const switchPlayer = function () {
     if (this.playerTurn === "X") {
       this.playerTurn = "O";
     } else if (this.playerTurn === "O") {
@@ -27,7 +27,17 @@ const gameboard = (() => {
     }
   };
 
-  let checkWinner = function (gameText) {
+  /*
+
+
+  let winningCombos = [[0, 1, 2], [3, 4, 5]]
+
+
+
+
+  */
+
+  const checkWinner = function (gameText) {
     if (board[0] === board[1] && board[0] === board[2] && board[0] != "") {
       gameboard.gameWon = true;
       if (board[0] === "X") {
@@ -117,7 +127,7 @@ const gameboard = (() => {
     }
   };
 
-  let checkTie = (cv) => cv != "";
+  const checkTie = (cv) => cv != "";
 
   return {
     board,
@@ -131,6 +141,18 @@ const gameboard = (() => {
 
 const displayController = (() => {
   const ticTacToeBoxes = document.querySelectorAll(".ticTacToeBox");
+  const resetButton = document.getElementById("resetGame");
+
+  const resetGame = function () {
+    ticTacToeBoxes.forEach((box) => {
+      box.textContent = "";
+      box.style.pointerEvents = "auto";
+    });
+    gameboard.gameWon = false;
+    gameboard.board = ["", "", "", "", "", "", "", "", ""];
+  };
+
+  resetButton.addEventListener("click", resetGame);
 
   let pOneName = document.getElementById("pOneName");
   pOneName.textContent = playerOne.playerName;
@@ -141,7 +163,7 @@ const displayController = (() => {
 
   let playerTurn = playerOne.playerMarker;
 
-  let gameTextChanger = function () {
+  const gameTextChanger = function () {
     if (playerTurn === "X") {
       gameText.textContent = `${playerOne.playerName}'s turn with ${playerTurn}`;
       playerTurn = "O";
@@ -162,7 +184,6 @@ const displayController = (() => {
       if (playerTurn === "X") {
         gameboard.placeMarker(gameboard.playerTurn, box, index);
         gameTextChanger();
-
         gameboard.switchPlayer();
       } else if (playerTurn === "O") {
         gameboard.placeMarker(gameboard.playerTurn, box, index);
@@ -175,6 +196,7 @@ const displayController = (() => {
           box.style.pointerEvents = "none";
         });
       }
+      console.log(e.target.textContent);
     });
   });
 })();
